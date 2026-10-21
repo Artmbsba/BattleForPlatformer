@@ -3,40 +3,24 @@ using UnityEngine;
 [RequireComponent(typeof(TargetDetector))]
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField,Range(0f,100f)] private float _damage = 10f;
-    [SerializeField] private float _attackDistance = 0.5f;
+    [SerializeField, Range(0f, 100f)] private float _damage = 10f;
     [SerializeField] private float _attackCoolDown = 1.5f;
 
-    private TargetDetector _targetDetector;
-    private float _lastAttackTime;
-    private float _facingDirection;
+    private float _lastAttackTime ;
 
-    private void Awake()
+    public bool CanAttack()
     {
-        _targetDetector = GetComponent<TargetDetector>();
+        return Time.time - _lastAttackTime > _attackCoolDown ;
     }
 
-    private void Update()
+    public void HitPlayer(Collider2D playerCollaider)
     {
-        if (Time.time - _lastAttackTime > _attackCoolDown)
+        if (playerCollaider != null
+         && playerCollaider.TryGetComponent(out IDamageable damageable))
         {
-            Collider2D playerCollaider = _targetDetector.FillingAnOpponent(_facingDirection);
+            damageable.TakeDamage(_damage);
 
-            if (playerCollaider != null
-                && playerCollaider.TryGetComponent(out IDamageable damageable)
-                && playerCollaider.TryGetComponent<Player>(out _))
-            {
-                damageable.TakeDamage(_damage);
-
-                _lastAttackTime = Time.time;
-                
-                Debug.Log("Враг нанес урон " + _damage);
-            }
+            _lastAttackTime = Time.time;
         }
-    }
-
-    public void SetFacingDerection(float facingDirection)
-    {
-        _facingDirection = facingDirection;
     }
 }

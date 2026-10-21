@@ -1,38 +1,36 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PatrolRoute))]
 [RequireComponent(typeof(MoverEnemy))]
 [RequireComponent(typeof(EnemyChase))]
-[RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(EnemyDeath))]
 [RequireComponent(typeof(EnemyAttack))]
 [RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Animations _animation;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private AnimationEvents _animationEvents;
+
     private PatrolRoute _patrolRoute;
     private MoverEnemy _moverEnemy;
     private EnemyChase _enemyChase;
-    private Animation _animation;
     private EnemyDeath _enemyDeath;
     private EnemyAttack _enemyAttack;
     private Health _health;
-
-    private Transform _targetPlayer;
+    private Collider2D _playerCollayder;
 
     private float _facingDirection = 1f;
+    private bool _isAttacking;
 
     public float FacingDirection => _facingDirection;
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _patrolRoute = GetComponent<PatrolRoute>();
         _moverEnemy = GetComponent<MoverEnemy>();
         _enemyChase = GetComponent<EnemyChase>();
-        _animation = GetComponent<Animation>();
         _enemyDeath = GetComponent<EnemyDeath>();
         _enemyAttack = GetComponent<EnemyAttack>();
         _health = GetComponent<Health>();
@@ -41,34 +39,33 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         _health.Damaged += OnDamaged;
+        _enemyChase.CanAttacking += OnAttackAinmation;
+        _animationEvents.Attacing += OnAttack;
     }
 
     private void FixedUpdate()
     {
-        _enemyChase.UpdateChase();
+        bool canAttack = _isAttacking == false && _enemyAttack.CanAttack();
+
+        _enemyChase.UpdateChase(canAttack);
 
         if (_enemyChase.IsChasing)
             ChasePalyer();
         else
             Patrol();
-
         _animation.SetSpeed(_moverEnemy.Speed);
     }
 
     private void OnDisable()
     {
         _health.Damaged -= OnDamaged;
+        _enemyChase.CanAttacking -= OnAttackAinmation;
+        _animationEvents.Attacing -= OnAttack;
     }
 
     public void SetPatrolZone(PatrolZone patrolZone)
     {
         _patrolRoute.SetPatorlZone(patrolZone);
-    }
-
-    public void SetTargetPlayer(Transform targetPlayer)
-    {
-        _targetPlayer = targetPlayer;
-        _enemyChase.SetPalyerPosistion(targetPlayer);
     }
 
     private void Patrol()
@@ -83,11 +80,26 @@ public class Enemy : MonoBehaviour
 
     private void ChasePalyer()
     {
-        Vector2 target = _targetPlayer.position;
+        Vector2 target = _enemyChase.Target.position;
 
         _moverEnemy.MoveTo(target);
 
         UpdateRotation(target);
+    }
+
+    private void OnAttackAinmation(Collider2D collider)
+    {
+        _playerCollayder = collider;
+
+        _animation.TriggerKick();
+
+        _isAttacking = true;
+    }
+
+    private void OnAttack()
+    {
+        _enemyAttack.HitPlayer(_playerCollayder);
+        _isAttacking = false;
     }
 
     private void UpdateRotation(Vector2 target)
@@ -97,7 +109,7 @@ public class Enemy : MonoBehaviour
         _facingDirection = Mathf.Sign(direction);
 
         _spriteRenderer.flipX = _facingDirection < 0f;
-        _enemyAttack.SetFacingDerection(FacingDirection);
+        _enemyChase.SetFacingDerection(FacingDirection);
     }
 
     private void OnDamaged()

@@ -5,6 +5,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField, Range(0f, 100f)] private float _damage = 20f;
     [SerializeField] private float _attackCooldown = 0.5f;
+    [SerializeField] private float _hitDistance = 1f;
 
     private bool _canAttack = true;
 
@@ -19,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void HitEnemies(TargetDetector targetDetector, float facingDirection)
     {
-        Collider2D enemyCollaider = targetDetector.FillingAnOpponent(facingDirection);
+        Collider2D enemyCollaider = targetDetector.FillingAnOpponent(facingDirection, _hitDistance);
 
         if (enemyCollaider != null
             && enemyCollaider.TryGetComponent<Enemy>(out _)

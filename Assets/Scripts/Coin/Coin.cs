@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, ICollectible
 {
-    public void Destroy()
+    public void Collect()
     {
         Destroy(gameObject);
     }

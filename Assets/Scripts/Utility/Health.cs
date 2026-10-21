@@ -32,17 +32,21 @@ public class Health : MonoBehaviour, IDamageable
         }
     }
 
-    public void Heal(MedKit medKit)
+    public bool Heal(float healthUnits)
     {
+        bool isHealed = false;
+
         if (_currentHealth != _maxHealth)
         {
-            _currentHealth = Mathf.Min(_maxHealth, _currentHealth + medKit.HealthUnits);
-
-            medKit.Destroy();
+            _currentHealth = Mathf.Min(_maxHealth, _currentHealth + healthUnits);
+                       
+            isHealed = true;
         }
         else
         {
             Debug.Log("Лечение не требуется!");
         }
+
+        return isHealed;
     }
 }

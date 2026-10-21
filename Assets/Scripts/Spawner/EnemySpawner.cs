@@ -23,7 +23,6 @@ public class EnemySpawner : MonoBehaviour
             Enemy newEnemy = Instantiate(patrolZone.EnemyPrefab, patrolZone.transform.position, Quaternion.identity);
 
             newEnemy.SetPatrolZone(patrolZone);
-            newEnemy.SetTargetPlayer(player);
         }
     }
 

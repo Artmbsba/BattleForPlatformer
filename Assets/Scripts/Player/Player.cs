@@ -2,11 +2,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(InputReader))]
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(CollectibleDetector))]
 [RequireComponent(typeof(CoinWallet))]
-[RequireComponent(typeof(CoinDetector))]
-[RequireComponent(typeof(MedKitDetector))]
-[RequireComponent(typeof(GroundDetector))]
 [RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(Jumper))]
 [RequireComponent(typeof(PlayerAttack))]
@@ -15,13 +12,13 @@ using UnityEngine;
 [RequireComponent(typeof(TargetDetector))]
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Animations _playerAnimation;
+    [SerializeField] private AnimationEvents _animationEvents;
+
     private Rigidbody2D _rigidbody;
     private InputReader _inputReader;
-    private Animation _playerAnimation;
+    private CollectibleDetector _collectibleDetector;
     private CoinWallet _coinWallet;
-    private CoinDetector _coinDetector;
-    private MedKitDetector _medKitDetector;
-    private GroundDetector _groundDetector;
     private Jumper _jumper;
     private Mover _mover;
     private PlayerAttack _playerAttack;
@@ -41,11 +38,8 @@ public class Player : MonoBehaviour
         _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 
         _inputReader = GetComponent<InputReader>();
-        _playerAnimation = GetComponent<Animation>();
+        _collectibleDetector = GetComponent<CollectibleDetector>();
         _coinWallet = GetComponent<CoinWallet>();
-        _coinDetector = GetComponent<CoinDetector>();
-        _medKitDetector = GetComponent<MedKitDetector>();
-        _groundDetector = GetComponent<GroundDetector>();
         _jumper = GetComponent<Jumper>();
         _mover = GetComponent<Mover>();
         _playerAttack = GetComponent<PlayerAttack>();
@@ -58,25 +52,25 @@ public class Player : MonoBehaviour
     {
         _inputReader.MoveInputChanged += OnMove;
         _inputReader.ClickedJump += OnJump;
-        _inputReader.ClicedAttack += OnAttack;
-        _coinDetector.CoinDetected += OnCoinDetected;
-        _medKitDetector.MedKitDetected += OnMedKitDetected;
+        _inputReader.ClicedAttack += OnAttackAnimation;
+        _collectibleDetector.CoinDetected += OnCollectibleDetected;
         _health.Damaged += OnDamaged;
+        _animationEvents.Attacing += OnAttack;
     }
 
     private void OnDisable()
     {
         _inputReader.MoveInputChanged -= OnMove;
         _inputReader.ClickedJump -= OnJump;
-        _inputReader.ClicedAttack -= OnAttack;
-        _coinDetector.CoinDetected -= OnCoinDetected;
-        _medKitDetector.MedKitDetected -= OnMedKitDetected;
+        _inputReader.ClicedAttack -= OnAttackAnimation;
+        _collectibleDetector.CoinDetected -= OnCollectibleDetected;
         _health.Damaged -= OnDamaged;
+        _animationEvents.Attacing -= OnAttack;
     }
 
     private void FixedUpdate()
     {
-        if (_groundDetector.IsGround(_rigidbody) == false)
+        if (_jumper.IsTouchedGround == false)
         {
             _playerAnimation.SetJumping(true);
         }
@@ -85,6 +79,11 @@ public class Player : MonoBehaviour
             _playerAnimation.SetSpeed(_speed);
             _playerAnimation.SetJumping(false);
         }
+    }
+
+    private void OnAttackAnimation()
+    {
+        _playerAnimation.TriggerKick();
     }
 
     private void OnAttack()
@@ -99,22 +98,38 @@ public class Player : MonoBehaviour
 
     private void OnJump()
     {
-        if (_groundDetector.IsGround(_rigidbody))
-            _jumper.ResetJumps();
+        _jumper.Jump();
+    }
 
-        _jumper.Jump(_rigidbody);
+    private void OnCollectibleDetected(ICollectible collectible)
+    {
+        switch (collectible)
+        {
+            case Coin coin:
+                OnCoinDetected(coin);
+                break;
+
+            case MedKit medKit:
+                OnMedKitDetected(medKit);
+                break;
+        }
     }
 
     private void OnMedKitDetected(MedKit medKit)
     {
-        _health.Heal(medKit);
+        bool ishealed = _health.Heal(medKit.HealthUnits);
 
         Debug.Log($"Çהמנמגüÿ: {_health.CurrentHealth}");
+
+        if (ishealed)
+            medKit.Collect();
     }
 
     private void OnCoinDetected(Coin coin)
     {
         _coinWallet.AddCoin(coin);
+
+        coin.Collect();
     }
 
     private void OnDamaged()

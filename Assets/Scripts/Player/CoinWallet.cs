@@ -12,7 +12,5 @@ public class CoinWallet : MonoBehaviour
 
         Debug.Log("Вы подобрали монетку");
         Debug.Log($"Баланс: {CoinCount}");
-
-        coin.Destroy();
     }
 }
