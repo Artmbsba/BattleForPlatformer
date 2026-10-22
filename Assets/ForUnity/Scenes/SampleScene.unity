@@ -21112,6 +21112,7 @@ GameObject:
   - component: {fileID: 1325576698}
   - component: {fileID: 1325576702}
   - component: {fileID: 1325576704}
+  - component: {fileID: 1325576705}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -21320,8 +21321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6530062f2572534c9ceedfadeade4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raycaster
-  _distance: 1
-  _beamDisplacement: 0.35
 --- !u!114 &1325576704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21334,6 +21333,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb7dd640eb6e014cb03c8b695a839e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectibleDetector
+--- !u!114 &1325576705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325576684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31acd8722cc0dbd47a8c3a736bf7ad52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupHandler
+  _health: {fileID: 1325576699}
 --- !u!1 &1355866511
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(TargetDetector))]
 public class EnemyAttack : MonoBehaviour
 {
     [SerializeField, Range(0f, 100f)] private float _damage = 10f;
@@ -13,10 +12,10 @@ public class EnemyAttack : MonoBehaviour
         return Time.time - _lastAttackTime > _attackCoolDown ;
     }
 
-    public void HitPlayer(Collider2D playerCollaider)
+    public void HitPlayer(Transform player)
     {
-        if (playerCollaider != null
-         && playerCollaider.TryGetComponent(out IDamageable damageable))
+        if (player != null
+         && player.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage(_damage);
 

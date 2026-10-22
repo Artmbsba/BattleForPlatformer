@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3192789122792246633}
   - component: {fileID: 2753584733076923486}
   - component: {fileID: 1576459892880841275}
-  - component: {fileID: 2225009397738232340}
   - component: {fileID: 2758594204308650464}
   - component: {fileID: 6826014758504745423}
   - component: {fileID: 8164276935504563055}
@@ -20,6 +19,7 @@ GameObject:
   - component: {fileID: 3593353482783014517}
   - component: {fileID: 2713586719612552907}
   - component: {fileID: 891310780470165060}
+  - component: {fileID: 2285492570501639165}
   m_Layer: 0
   m_Name: EnemyType1
   m_TagString: Untagged
@@ -120,20 +120,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2225009397738232340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6097641641824724424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1db2c249b5ed649b74ae74cf0068bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoverEnemy
-  _reachDistance: 0.5
-  _speed: 1
 --- !u!95 &2758594204308650464
 Animator:
   serializedVersion: 7
@@ -171,6 +157,7 @@ MonoBehaviour:
   _animation: {fileID: 6874343394596136396}
   _spriteRenderer: {fileID: 1349915312479524428}
   _animationEvents: {fileID: 1968240545655554814}
+  _reachDistance: 0.5
 --- !u!114 &8164276935504563055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6894ab178917e824e92e7c9797a49dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
-  _attackDistance: 0.3
+  _attackDistance: 0.5
   _detectionRange: 5
   _loseRange: 7
 --- !u!114 &1313992240295509921
@@ -223,8 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6530062f2572534c9ceedfadeade4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raycaster
-  _distance: 0.5
-  _beamDisplacement: 0.33
 --- !u!114 &891310780470165060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +224,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   _damage: 10
   _attackCoolDown: 1.5
+--- !u!114 &2285492570501639165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6097641641824724424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4e6cf47e057dc47879ab53c4182bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mover
+  _moveSpeed: 1
 --- !u!1 &8291040095661846495
 GameObject:
   m_ObjectHideFlags: 0

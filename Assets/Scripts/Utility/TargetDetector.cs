@@ -1,17 +1,11 @@
 using UnityEngine;
 
-public class TargetDetector: MonoBehaviour
+public class TargetDetector : MonoBehaviour
 {
-    [SerializeField] private float _distance = 1f;
-    [SerializeField] private float _beamDisplacement = 0.33f;
-
-    public Collider2D FillingAnOpponent(float facingDirection, float distance)
+    public Collider2D FillingAnOpponent(float facingDirection, float radius)
     {
-        Vector2 direction = Vector2.right * facingDirection;
-        Vector2 origin = (Vector2)transform.position + direction * _beamDisplacement;
+        Collider2D raycastHit = Physics2D.OverlapCircle(transform.position, radius);
 
-        RaycastHit2D raycastHit = Physics2D.Raycast(origin, direction, _distance);
-
-        return raycastHit.collider;
+        return raycastHit;
     }
 }

@@ -1,8 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(TargetDetector))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PatrolRoute))]
-[RequireComponent(typeof(MoverEnemy))]
+[RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(EnemyChase))]
 [RequireComponent(typeof(EnemyDeath))]
 [RequireComponent(typeof(EnemyAttack))]
@@ -12,14 +13,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animations _animation;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AnimationEvents _animationEvents;
+    [SerializeField] private float _attackDistance = 1f;
+    [SerializeField] private float _reachDistance = 0.5f;
+    [SerializeField] private float _detectionRange = 5f;
 
+    private TargetDetector _targetDetector;
     private PatrolRoute _patrolRoute;
-    private MoverEnemy _moverEnemy;
+    private Mover _mover;
     private EnemyChase _enemyChase;
     private EnemyDeath _enemyDeath;
     private EnemyAttack _enemyAttack;
     private Health _health;
-    private Collider2D _playerCollayder;
+    private Transform _targetPlayer;
 
     private float _facingDirection = 1f;
     private bool _isAttacking;
@@ -28,8 +33,9 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        _targetDetector = GetComponent<TargetDetector>();
         _patrolRoute = GetComponent<PatrolRoute>();
-        _moverEnemy = GetComponent<MoverEnemy>();
+        _mover = GetComponent<Mover>();
         _enemyChase = GetComponent<EnemyChase>();
         _enemyDeath = GetComponent<EnemyDeath>();
         _enemyAttack = GetComponent<EnemyAttack>();
@@ -39,7 +45,6 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         _health.Damaged += OnDamaged;
-        _enemyChase.CanAttacking += OnAttackAinmation;
         _animationEvents.Attacing += OnAttack;
     }
 
@@ -47,19 +52,21 @@ public class Enemy : MonoBehaviour
     {
         bool canAttack = _isAttacking == false && _enemyAttack.CanAttack();
 
-        _enemyChase.UpdateChase(canAttack);
+        SearchTarget();
 
-        if (_enemyChase.IsChasing)
+        if (ReadyForAnAttack() && canAttack)
+            OnAttackAinmation();
+
+        if (_enemyChase.UpdateChase(_detectionRange, _targetPlayer))
             ChasePalyer();
         else
             Patrol();
-        _animation.SetSpeed(_moverEnemy.Speed);
+        _animation.SetSpeed(_mover.Speed);
     }
 
     private void OnDisable()
     {
         _health.Damaged -= OnDamaged;
-        _enemyChase.CanAttacking -= OnAttackAinmation;
         _animationEvents.Attacing -= OnAttack;
     }
 
@@ -72,25 +79,48 @@ public class Enemy : MonoBehaviour
     {
         Vector2 target = _patrolRoute.CurrentTarget;
 
-        if (_moverEnemy.MoveTo(target))
+        _mover.MoveEnemy(target);
+
+        if (IsTargetReached())
             _patrolRoute.MoveToNext();
 
         UpdateRotation(target);
     }
 
+    private bool IsTargetReached()
+    {
+        Vector2 path = _patrolRoute.CurrentTarget - (Vector2)transform.position;
+
+        if (path.sqrMagnitude <= _reachDistance * _reachDistance)
+            return true;
+
+        return false;
+    }
+
     private void ChasePalyer()
     {
-        Vector2 target = _enemyChase.Target.position;
+        Vector2 target = _targetPlayer.position;
 
-        _moverEnemy.MoveTo(target);
+        _mover.MoveEnemy(target);
 
         UpdateRotation(target);
     }
 
-    private void OnAttackAinmation(Collider2D collider)
+    private bool ReadyForAnAttack()
     {
-        _playerCollayder = collider;
+        if (_targetPlayer != null)
+        {
+            Vector2 path = (Vector2)_targetPlayer.position - (Vector2)transform.position;
 
+            if (path.sqrMagnitude <= _attackDistance * _attackDistance)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void OnAttackAinmation()
+    {
         _animation.TriggerKick();
 
         _isAttacking = true;
@@ -98,18 +128,32 @@ public class Enemy : MonoBehaviour
 
     private void OnAttack()
     {
-        _enemyAttack.HitPlayer(_playerCollayder);
-        _isAttacking = false;
+        if (_targetPlayer != null)
+        {
+            _enemyAttack.HitPlayer(_targetPlayer);
+
+            _isAttacking = false;
+        }
     }
 
     private void UpdateRotation(Vector2 target)
     {
         float direction = target.x - transform.position.x;
 
-        _facingDirection = Mathf.Sign(direction);
+        if (direction != 0)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * Mathf.Sign(direction);
+            transform.localScale = scale;
+        }
+    }
 
-        _spriteRenderer.flipX = _facingDirection < 0f;
-        _enemyChase.SetFacingDerection(FacingDirection);
+    private void SearchTarget()
+    {
+        Collider2D playerCollaider = _targetDetector.FillingAnOpponent(_facingDirection, _detectionRange);
+
+        if (playerCollaider != null && playerCollaider.TryGetComponent(out Player player))
+            _targetPlayer = player.transform;
     }
 
     private void OnDamaged()

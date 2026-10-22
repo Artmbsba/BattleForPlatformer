@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 6451375474463095079}
   - component: {fileID: 8933898271347258667}
   - component: {fileID: 4458234863167734113}
-  - component: {fileID: 7464152318771926856}
   - component: {fileID: 3444244035246094213}
   - component: {fileID: 4269254637700391311}
   - component: {fileID: 3519712556740657621}
   - component: {fileID: 5554359991007242556}
   - component: {fileID: 7396602233844419104}
   - component: {fileID: 7147767440628675571}
+  - component: {fileID: 1012284986211636484}
   m_Layer: 0
   m_Name: EnemyType2
   m_TagString: Untagged
@@ -119,20 +119,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7464152318771926856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3237209914391864487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae1db2c249b5ed649b74ae74cf0068bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoverEnemy
-  _reachDistance: 0.5
-  _speed: 1
 --- !u!114 &3444244035246094213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +134,7 @@ MonoBehaviour:
   _animation: {fileID: 2543238336665375761}
   _spriteRenderer: {fileID: 4229905284415034868}
   _animationEvents: {fileID: 8775638397955429606}
+  _reachDistance: 0.5
 --- !u!114 &4269254637700391311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,8 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6530062f2572534c9ceedfadeade4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raycaster
-  _distance: 0.5
-  _beamDisplacement: 0.33
 --- !u!114 &7147767440628675571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +201,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   _damage: 10
   _attackCoolDown: 1.5
+--- !u!114 &1012284986211636484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237209914391864487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4e6cf47e057dc47879ab53c4182bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mover
+  _moveSpeed: 1
 --- !u!1 &7281736475577754542
 GameObject:
   m_ObjectHideFlags: 0
