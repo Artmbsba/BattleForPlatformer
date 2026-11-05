@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class TargetDetector : MonoBehaviour
 {
-    public Collider2D FillingAnOpponent(float facingDirection, float radius)
+    public Collider2D FillingAnOpponent<T>(float facingDirection, float radius) where T : Component
     {
-        Collider2D raycastHit = Physics2D.OverlapCircle(transform.position, radius);
+        Collider2D[] raycastHits = Physics2D.OverlapCircleAll(transform.position, radius);
 
-        return raycastHit;
+        foreach(var hit in raycastHits)
+           if( hit.TryGetComponent<T>(out _))
+                return hit;
+
+        return null;
     }
 }

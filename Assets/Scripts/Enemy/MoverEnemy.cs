@@ -6,6 +6,7 @@ public class MoverEnemy : MonoBehaviour
     [SerializeField, Range(0.0f, 3.0f)] private float _speed = 1.0f;
 
     private Rigidbody2D _rigidbody;
+    private float _reachDistance;
 
     public float ReachDistance => _reachDistance;
     public float Speed => _speed;

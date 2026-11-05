@@ -20,15 +20,16 @@ public class PlayerAttack : MonoBehaviour
 
     private void HitEnemies(TargetDetector targetDetector, float facingDirection)
     {
-        Collider2D enemyCollaider = targetDetector.FillingAnOpponent(facingDirection, _hitDistance);
+        Collider2D enemyCollaider = targetDetector.FillingAnOpponent<Enemy>(facingDirection, _hitDistance);
 
-        if (enemyCollaider != null
-            && enemyCollaider.TryGetComponent<Enemy>(out _)
-            && enemyCollaider.TryGetComponent(out IDamageable damageable))
+        if (enemyCollaider != null)
         {
-            damageable.TakeDamage(_damage);
+            Enemy enemy = enemyCollaider.GetComponentInParent<Enemy>();
 
-            Debug.Log("Игрок нанес урон " + _damage);
+            if (enemyCollaider != null
+             && enemyCollaider.TryGetComponent<Enemy>(out _)
+             && enemyCollaider.TryGetComponent(out IDamageable damageable))
+                damageable.TakeDamage(_damage);
         }
     }
 

@@ -48,6 +48,12 @@ public class Enemy : MonoBehaviour
         _animationEvents.Attacing += OnAttack;
     }
 
+    private void Start()
+    {
+        if (BarSpawner.Instance != null)
+            BarSpawner.Instance.CreateEnemyBar(_health, transform);
+    }
+
     private void FixedUpdate()
     {
         bool canAttack = _isAttacking == false && _enemyAttack.CanAttack();
@@ -150,7 +156,7 @@ public class Enemy : MonoBehaviour
 
     private void SearchTarget()
     {
-        Collider2D playerCollaider = _targetDetector.FillingAnOpponent(_facingDirection, _detectionRange);
+        Collider2D playerCollaider = _targetDetector.FillingAnOpponent<Player>(_facingDirection, _detectionRange);
 
         if (playerCollaider != null && playerCollaider.TryGetComponent(out Player player))
             _targetPlayer = player.transform;

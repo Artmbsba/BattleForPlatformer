@@ -9,6 +9,7 @@ public class Health : MonoBehaviour, IDamageable
 
     public event Action Died;
     public event Action Damaged;
+    public event Action HealthHasChanged;
 
     public float CurrentHealth => _currentHealth;
     public float MaxHealth => _maxHealth;
@@ -29,6 +30,8 @@ public class Health : MonoBehaviour, IDamageable
 
             if (_currentHealth <= 0)
                 Died?.Invoke();
+
+            HealthHasChanged?.Invoke();
         }
     }
 
@@ -42,11 +45,9 @@ public class Health : MonoBehaviour, IDamageable
             {
                 _currentHealth = Mathf.Min(_maxHealth, _currentHealth + healthUnits);
 
+                HealthHasChanged?.Invoke();
+
                 isHealed = true;
-            }
-            else
-            {
-                Debug.Log("Лечение не требуется!");
             }
         }
 

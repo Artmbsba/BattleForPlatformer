@@ -37,13 +37,12 @@ public class Mover : MonoBehaviour
     }
 
     public void MoveEnemy(Vector2 target)
-    {       
+    {
         Vector2 current = _rigidbody.position;
-       
+
         float directionX = target.x - current.x;
 
         _rigidbody.linearVelocity = new Vector2(Mathf.Sign(directionX) * _moveSpeed, _rigidbody.linearVelocity.y);
-
     }
 
     public float GetFacingDerection()

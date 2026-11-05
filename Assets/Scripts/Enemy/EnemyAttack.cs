@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [SerializeField, Range(0f, 100f)] private float _damage = 10f;
-    [SerializeField] private float _attackCoolDown = 1.5f;
+    [SerializeField] private float _attackCoolDown = 2f;
 
     private float _lastAttackTime ;
 

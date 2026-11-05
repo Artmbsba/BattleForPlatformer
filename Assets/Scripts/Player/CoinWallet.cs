@@ -9,8 +9,5 @@ public class CoinWallet : MonoBehaviour
     public void AddCoin(Coin coin)
     {
         _coinCount++;
-
-        Debug.Log("Вы подобрали монетку");
-        Debug.Log($"Баланс: {CoinCount}");
     }
 }

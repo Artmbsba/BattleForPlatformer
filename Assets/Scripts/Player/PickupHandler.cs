@@ -43,8 +43,6 @@ public class PickupHandler: MonoBehaviour
     {
         bool ishealed = _health.Heal(medKit.HealthUnits);
 
-        Debug.Log($"Çהמנמגüÿ: {_health.CurrentHealth}");
-
         if (ishealed)
             medKit.Collect();
     }

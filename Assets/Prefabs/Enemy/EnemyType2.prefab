@@ -134,7 +134,9 @@ MonoBehaviour:
   _animation: {fileID: 2543238336665375761}
   _spriteRenderer: {fileID: 4229905284415034868}
   _animationEvents: {fileID: 8775638397955429606}
+  _attackDistance: 1
   _reachDistance: 0.5
+  _detectionRange: 5
 --- !u!114 &4269254637700391311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,8 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6894ab178917e824e92e7c9797a49dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
-  _attackDistance: 0.5
-  _detectionRange: 5
   _loseRange: 7
 --- !u!114 &3519712556740657621
 MonoBehaviour:
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   _damage: 10
-  _attackCoolDown: 1.5
+  _attackCoolDown: 2
 --- !u!114 &1012284986211636484
 MonoBehaviour:
   m_ObjectHideFlags: 0
