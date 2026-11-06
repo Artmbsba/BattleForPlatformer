@@ -4,7 +4,7 @@ using UnityEngine;
 public class MedKitSpawner : MonoBehaviour
 {
     [SerializeField] private MedKitPoint[] _medKitPoints;
-    [SerializeField, Range(0f,100f)] private float _spawnChancePercent = 30f;
+    [SerializeField, Range(0f, 100f)] private float _spawnChancePercent = 30f;
 
     private void OnEnable()
     {
@@ -21,8 +21,8 @@ public class MedKitSpawner : MonoBehaviour
     private void SpawnMedKit(SpawnerPoint spawnerPoint)
     {
         if (spawnerPoint.TryGetComponent(out MedKitPoint medKitPoint))
-            if(SpawnToChance())
-            Instantiate(medKitPoint.MedKitPrefab, medKitPoint.transform.position, Quaternion.identity);
+            if (SpawnToChance())
+                Instantiate(medKitPoint.MedKitPrefab, medKitPoint.transform.position, Quaternion.identity);
     }
 
     private bool SpawnToChance()

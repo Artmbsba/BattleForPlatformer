@@ -22,15 +22,15 @@ public class PlayerAttack : MonoBehaviour
     {
         Collider2D enemyCollaider = targetDetector.FillingAnOpponent<Enemy>(facingDirection, _hitDistance);
 
-        if (enemyCollaider != null)
-        {
-            Enemy enemy = enemyCollaider.GetComponentInParent<Enemy>();
+        if (enemyCollaider == null)
+            return;
 
-            if (enemyCollaider != null
-             && enemyCollaider.TryGetComponent<Enemy>(out _)
-             && enemyCollaider.TryGetComponent(out IDamageable damageable))
-                damageable.TakeDamage(_damage);
-        }
+        Enemy enemy = enemyCollaider.GetComponentInParent<Enemy>();
+
+        if (enemyCollaider != null
+         && enemyCollaider.TryGetComponent<Enemy>(out _)
+         && enemyCollaider.TryGetComponent(out IDamageable damageable))
+            damageable.TakeDamage(_damage);
     }
 
     private IEnumerator CoolDown()

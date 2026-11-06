@@ -5,17 +5,19 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField, Range(0f, 100f)] private float _damage = 10f;
     [SerializeField] private float _attackCoolDown = 2f;
 
-    private float _lastAttackTime ;
+    private float _lastAttackTime;
 
     public bool CanAttack()
     {
-        return Time.time - _lastAttackTime > _attackCoolDown ;
+        return Time.time - _lastAttackTime > _attackCoolDown;
     }
 
     public void HitPlayer(Transform player)
     {
-        if (player != null
-         && player.TryGetComponent(out IDamageable damageable))
+        if (player == null)
+            return;
+
+        if (player.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage(_damage);
 

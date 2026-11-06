@@ -22,8 +22,9 @@ public class Health : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        if (IsAlive && damage >= 0)
-        {
+        if (IsAlive && damage < 0)
+        return;
+
             _currentHealth = Mathf.Max(0, _currentHealth - damage);
 
             Damaged?.Invoke();
@@ -32,15 +33,15 @@ public class Health : MonoBehaviour, IDamageable
                 Died?.Invoke();
 
             HealthHasChanged?.Invoke();
-        }
     }
 
     public bool Heal(float healthUnits)
     {
         bool isHealed = false;
 
-        if (healthUnits >= 0)
-        {
+        if (healthUnits < 0)
+            return isHealed;
+
             if (_currentHealth != _maxHealth)
             {
                 _currentHealth = Mathf.Min(_maxHealth, _currentHealth + healthUnits);
@@ -49,8 +50,7 @@ public class Health : MonoBehaviour, IDamageable
 
                 isHealed = true;
             }
-        }
-
+        
         return isHealed;
     }
 }

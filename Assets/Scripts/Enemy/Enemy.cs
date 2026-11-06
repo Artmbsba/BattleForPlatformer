@@ -48,12 +48,6 @@ public class Enemy : MonoBehaviour
         _animationEvents.Attacing += OnAttack;
     }
 
-    private void Start()
-    {
-        if (BarSpawner.Instance != null)
-            BarSpawner.Instance.CreateEnemyBar(_health, transform);
-    }
-
     private void FixedUpdate()
     {
         bool canAttack = _isAttacking == false && _enemyAttack.CanAttack();
@@ -89,8 +83,6 @@ public class Enemy : MonoBehaviour
 
         if (IsTargetReached())
             _patrolRoute.MoveToNext();
-
-        UpdateRotation(target);
     }
 
     private bool IsTargetReached()
@@ -108,19 +100,17 @@ public class Enemy : MonoBehaviour
         Vector2 target = _targetPlayer.position;
 
         _mover.MoveEnemy(target);
-
-        UpdateRotation(target);
     }
 
     private bool ReadyForAnAttack()
     {
-        if (_targetPlayer != null)
-        {
-            Vector2 path = (Vector2)_targetPlayer.position - (Vector2)transform.position;
+        if (_targetPlayer == null)
+            return false;
 
-            if (path.sqrMagnitude <= _attackDistance * _attackDistance)
-                return true;
-        }
+        Vector2 path = (Vector2)_targetPlayer.position - (Vector2)transform.position;
+
+        if (path.sqrMagnitude <= _attackDistance * _attackDistance)
+            return true;
 
         return false;
     }
@@ -134,24 +124,12 @@ public class Enemy : MonoBehaviour
 
     private void OnAttack()
     {
-        if (_targetPlayer != null)
-        {
-            _enemyAttack.HitPlayer(_targetPlayer);
+        if (_targetPlayer == null)
+            return;
 
-            _isAttacking = false;
-        }
-    }
+        _enemyAttack.HitPlayer(_targetPlayer);
 
-    private void UpdateRotation(Vector2 target)
-    {
-        float direction = target.x - transform.position.x;
-
-        if (direction != 0)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * Mathf.Sign(direction);
-            transform.localScale = scale;
-        }
+        _isAttacking = false;
     }
 
     private void SearchTarget()

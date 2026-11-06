@@ -9,16 +9,16 @@ public class EnemyChase : MonoBehaviour
     {
         bool isChasing = false;
 
-        if (target != null)
-        {
-            Vector2 toTarget = target.position - transform.position;
-            float sqrDistance = toTarget.sqrMagnitude;
+        if (target == null)
+            return isChasing;
 
-            if (sqrDistance < detectionRange * detectionRange)
-                isChasing = true;
-            else if (sqrDistance > _loseRange * _loseRange)
-                isChasing = false;
-        }
+        Vector2 toTarget = target.position - transform.position;
+        float sqrDistance = toTarget.sqrMagnitude;
+
+        if (sqrDistance < detectionRange * detectionRange)
+            isChasing = true;
+        else if (sqrDistance > _loseRange * _loseRange)
+            isChasing = false;
 
         return isChasing;
     }

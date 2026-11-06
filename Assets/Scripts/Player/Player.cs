@@ -48,12 +48,6 @@ public class Player : MonoBehaviour
         _animationEvents.Attacing += OnAttack;
     }
 
-    private void Start()
-    {
-        if (BarSpawner.Instance != null)
-            BarSpawner.Instance.CreatePlayerBar(_health, transform);
-    }
-
     private void OnDisable()
     {
         _inputReader.MoveInputChanged -= OnMove;

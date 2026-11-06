@@ -84,8 +84,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6738838534355694897}
-  - component: {fileID: -2373180117935848478}
-  - component: {fileID: 1452938793217045157}
   m_Layer: 0
   m_Name: ViewHealthBar
   m_TagString: Untagged
@@ -109,33 +107,6 @@ Transform:
   - {fileID: 7421998645842204701}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2373180117935848478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899477310962258171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd5e0c98e5a54144b5db1f6068b4da0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BarFollow
-  _offcet: {x: 0, y: 0.5, z: 0}
---- !u!114 &1452938793217045157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899477310962258171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c8edc31cd215644b793116d74e4ba9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ViewHPBar
-  _healthBar: {fileID: 8047688622795171399}
-  _speed: 0.5
 --- !u!1 &4537852071335839046
 GameObject:
   m_ObjectHideFlags: 0

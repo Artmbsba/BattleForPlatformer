@@ -99,5 +99,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 899477310962258171, guid: 7b9174ea07cccce498922f6931032e43, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5700061177399147930}
   m_SourcePrefab: {fileID: 100100000, guid: 7b9174ea07cccce498922f6931032e43, type: 3}
+--- !u!1 &1375060982060930986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 899477310962258171, guid: 7b9174ea07cccce498922f6931032e43, type: 3}
+  m_PrefabInstance: {fileID: 2264931782615893841}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5700061177399147930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375060982060930986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cecad0fa00e83744a81f1bc3e5ee67c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ViewHealthBarSmooth
+  _health: {fileID: 0}
+  _healthBar: {fileID: 0}
+  _speed: 0.5
