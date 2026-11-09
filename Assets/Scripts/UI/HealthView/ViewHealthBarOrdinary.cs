@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ViewHealthBarOrdinary: ViewHealth
+public class ViewHealthBarOrdinary: ViewBar
 {
     [SerializeField] protected Slider HealthBar;
-    [SerializeField] protected Vector3 Offset = new Vector3(0f,0.17f,0f);
+    [SerializeField] protected Vector3 Offset = new Vector3(0f,0.23f,0f);
 
     protected float TargetVolume;
 

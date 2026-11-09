@@ -26,10 +26,7 @@ public class Enemy : MonoBehaviour
     private Health _health;
     private Transform _targetPlayer;
 
-    private float _facingDirection = 1f;
     private bool _isAttacking;
-
-    public float FacingDirection => _facingDirection;
 
     private void Awake()
     {
@@ -134,10 +131,10 @@ public class Enemy : MonoBehaviour
 
     private void SearchTarget()
     {
-        Collider2D playerCollaider = _targetDetector.FillingAnOpponent<Player>(_facingDirection, _detectionRange);
+        Player playerTarget = _targetDetector.FillingAnOpponent<Player>( _detectionRange);
 
-        if (playerCollaider != null && playerCollaider.TryGetComponent(out Player player))
-            _targetPlayer = player.transform;
+        if (playerTarget != null )
+            _targetPlayer = playerTarget.transform;
     }
 
     private void OnDamaged()

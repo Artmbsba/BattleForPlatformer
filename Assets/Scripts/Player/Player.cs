@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(TargetDetector))]
 [RequireComponent(typeof(PickupHandler))]
+[RequireComponent(typeof(Vampirism))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private Animations _playerAnimation;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     private PlayerDeath _playerDeath;
     private TargetDetector _raycaster;
     private PickupHandler _pickupHandler;
+    private Vampirism _vampirism;
 
     private float _speed;
 
@@ -36,10 +38,12 @@ public class Player : MonoBehaviour
         _playerDeath = GetComponent<PlayerDeath>();
         _raycaster = GetComponent<TargetDetector>();
         _pickupHandler = GetComponent<PickupHandler>();
+        _vampirism = GetComponent<Vampirism>();
     }
 
     private void OnEnable()
     {
+        _inputReader.ClicingVampirism += OnVampirism;
         _inputReader.MoveInputChanged += OnMove;
         _inputReader.ClickedJump += OnJump;
         _inputReader.ClicedAttack += OnAttackAnimation;
@@ -50,6 +54,7 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
+        _inputReader.ClicingVampirism -= OnVampirism;
         _inputReader.MoveInputChanged -= OnMove;
         _inputReader.ClickedJump -= OnJump;
         _inputReader.ClicedAttack -= OnAttackAnimation;
@@ -88,6 +93,11 @@ public class Player : MonoBehaviour
     private void OnJump()
     {
         _jumper.Jump();
+    }
+
+    private void OnVampirism()
+    {
+        _vampirism.TryVampirism(_health);
     }
 
     private void OnDamaged()

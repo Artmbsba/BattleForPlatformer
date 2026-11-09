@@ -41,13 +41,16 @@ public class Mover : MonoBehaviour
     public void MoveEnemy(Vector2 target)
     {
         Vector2 current = _rigidbody.position;
-
+        float offsetForRotation = 0.1f;
         float directionX = target.x - current.x;
 
-        _rigidbody.linearVelocity = new Vector2(Mathf.Sign(directionX) * _moveSpeed, _rigidbody.linearVelocity.y);
-
-        if (directionX == 0)
+        if (Mathf.Abs(directionX) < offsetForRotation)
+        {
+            _rigidbody.linearVelocity = new Vector2(0, _rigidbody.linearVelocity.y);
             return;
+        }
+
+        _rigidbody.linearVelocity = new Vector2(Mathf.Sign(directionX) * _moveSpeed, _rigidbody.linearVelocity.y);
 
         Vector3 scale = _veiwTransform.localScale;
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(directionX);

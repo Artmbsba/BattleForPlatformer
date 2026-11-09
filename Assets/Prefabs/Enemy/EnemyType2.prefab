@@ -394,7 +394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4822104530758677088, guid: eda477dd01b05f94fa2561e92db30de6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4822104530758677088, guid: eda477dd01b05f94fa2561e92db30de6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -432,6 +432,10 @@ PrefabInstance:
       propertyPath: Health
       value: 
       objectReference: {fileID: 3519712556740657621}
+    - target: {fileID: 5700061177399147930, guid: eda477dd01b05f94fa2561e92db30de6, type: 3}
+      propertyPath: Offset.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5700061177399147930, guid: eda477dd01b05f94fa2561e92db30de6, type: 3}
       propertyPath: HealthBar
       value: 

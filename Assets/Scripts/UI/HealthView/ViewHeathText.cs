@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class ViewHeathText : ViewHealth
+public class ViewHeathText : ViewBar
 {
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     

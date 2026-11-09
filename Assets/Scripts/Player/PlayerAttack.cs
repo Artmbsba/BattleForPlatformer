@@ -14,22 +14,21 @@ public class PlayerAttack : MonoBehaviour
         if (_canAttack)
         {
             StartCoroutine(CoolDown());
-            HitEnemies(raycaster, facingDirection);
+            HitEnemies(raycaster);
         }
     }
 
-    private void HitEnemies(TargetDetector targetDetector, float facingDirection)
+    private void HitEnemies(TargetDetector targetDetector)
     {
-        Collider2D enemyCollaider = targetDetector.FillingAnOpponent<Enemy>(facingDirection, _hitDistance);
+        Enemy enemyTarget = targetDetector.FillingAnOpponent<Enemy>( _hitDistance);
 
-        if (enemyCollaider == null)
+        if (enemyTarget == null)
             return;
 
-        Enemy enemy = enemyCollaider.GetComponentInParent<Enemy>();
+        enemyTarget = enemyTarget.GetComponentInParent<Enemy>();
 
-        if (enemyCollaider != null
-         && enemyCollaider.TryGetComponent<Enemy>(out _)
-         && enemyCollaider.TryGetComponent(out IDamageable damageable))
+        if (enemyTarget != null
+         && enemyTarget.TryGetComponent(out IDamageable damageable))
             damageable.TakeDamage(_damage);
     }
 
