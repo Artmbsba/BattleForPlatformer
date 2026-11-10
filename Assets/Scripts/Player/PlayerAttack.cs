@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
 
     private bool _canAttack = true;
 
-    public void TryAttack(TargetDetector raycaster, float facingDirection)
+    public void TryAttack(TargetDetector raycaster)
     {
         if (_canAttack)
         {
@@ -20,12 +20,10 @@ public class PlayerAttack : MonoBehaviour
 
     private void HitEnemies(TargetDetector targetDetector)
     {
-        Enemy enemyTarget = targetDetector.FillingAnOpponent<Enemy>( _hitDistance);
+        Enemy enemyTarget = targetDetector.FillingAnOpponent<Enemy>(_hitDistance);
 
         if (enemyTarget == null)
             return;
-
-        enemyTarget = enemyTarget.GetComponentInParent<Enemy>();
 
         if (enemyTarget != null
          && enemyTarget.TryGetComponent(out IDamageable damageable))

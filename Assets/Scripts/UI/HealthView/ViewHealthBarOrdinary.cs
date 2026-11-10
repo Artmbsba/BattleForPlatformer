@@ -10,7 +10,7 @@ public class ViewHealthBarOrdinary: ViewBar
 
     protected override void DrawHealth()
     {
-        TargetVolume = Health.CurrentHealth/ Health.MaxHealth;
+        TargetVolume = Health.CurrentValue/ Health.MaxValue;
 
         HealthBar.value = TargetVolume;
         transform.localPosition = Offset;

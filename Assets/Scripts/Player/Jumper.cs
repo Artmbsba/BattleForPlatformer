@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,18 +12,37 @@ public class Jumper : MonoBehaviour
 
     private int _maxJump = 2;
     private int _jumpUsed;
+    private bool _wasGrounded;
+    private bool _isGrounded;
+
+    public event Action Jumped;
+    public event Action Landed;
 
     public bool CanJump => _jumpUsed < _maxJump;
-    public bool IsTouchedGround => (_groundDetector.IsGround(_rigidbody));
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        bool _isGrounded = _groundDetector.IsGround(_rigidbody);
+        
+        if(_isGrounded && _wasGrounded)
+            Landed?.Invoke();
+
+        if(_isGrounded == false && _wasGrounded)
+            Jumped?.Invoke();
+
+        _wasGrounded = _isGrounded;
+    }
+
     public void Jump()
     {
-        if (IsTouchedGround)
+        _isGrounded = _groundDetector.IsGround(_rigidbody);
+
+        if (_isGrounded)
             ResetJumps();
 
         if (CanJump)

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7092603246315235242}
   - component: {fileID: 6724676843790593715}
   - component: {fileID: 8155896811133903831}
+  - component: {fileID: 9188697961289329561}
   m_Layer: 0
   m_Name: EnemyType3
   m_TagString: Untagged
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a38eb66e1ed544d97b9a22e7c6c0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _maxHealth: 100
+  _maxValue: 100
 --- !u!114 &3580189640345262350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +216,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mover
   _moveSpeed: 1
+  _veiwTransform: {fileID: 7061289709452838118}
+--- !u!114 &9188697961289329561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6919484189352662127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011dc5d241ca45949a439797f676ff67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
   _veiwTransform: {fileID: 7061289709452838118}
 --- !u!1 &8451120105134999783
 GameObject:

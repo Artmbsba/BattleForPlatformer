@@ -10,7 +10,7 @@ public class ViewHealthBarSmooth : ViewHealthBarOrdinary
     protected override void DrawHealth()
     {
         transform.localPosition = Offset;
-        TargetVolume = Health.CurrentHealth / Health.MaxHealth;
+        TargetVolume = Health.CurrentValue / Health.MaxValue;
 
         if (_animationCorutine != null)
             StopCoroutine(_animationCorutine);

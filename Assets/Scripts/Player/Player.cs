@@ -11,31 +11,27 @@ using UnityEngine;
 [RequireComponent(typeof(Vampirism))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Animations _playerAnimation;
+    [SerializeField] private Animations _animation;
     [SerializeField] private AnimationEvents _animationEvents;
 
     private InputReader _inputReader;
     private Jumper _jumper;
     private Mover _mover;
-    private PlayerAttack _playerAttack;
+    private PlayerAttack _attack;
     private Health _health;
-    private PlayerDeath _playerDeath;
+    private PlayerDeath _death;
     private TargetDetector _raycaster;
     private PickupHandler _pickupHandler;
     private Vampirism _vampirism;
-
-    private float _speed;
-
-    public float FacingfDeretion => _mover.GetFacingDerection();
 
     private void Awake()
     {
         _inputReader = GetComponent<InputReader>();
         _jumper = GetComponent<Jumper>();
         _mover = GetComponent<Mover>();
-        _playerAttack = GetComponent<PlayerAttack>();
+        _attack = GetComponent<PlayerAttack>();
         _health = GetComponent<Health>();
-        _playerDeath = GetComponent<PlayerDeath>();
+        _death = GetComponent<PlayerDeath>();
         _raycaster = GetComponent<TargetDetector>();
         _pickupHandler = GetComponent<PickupHandler>();
         _vampirism = GetComponent<Vampirism>();
@@ -48,8 +44,10 @@ public class Player : MonoBehaviour
         _inputReader.ClickedJump += OnJump;
         _inputReader.ClicedAttack += OnAttackAnimation;
 
-        _health.Damaged += OnDamaged;
+        _health.DamageReceived += OnDamaged;
         _animationEvents.Attacing += OnAttack;
+        _jumper.Jumped += OnJumped;
+        _jumper.Landed += OnLanded;
     }
 
     private void OnDisable()
@@ -58,41 +56,41 @@ public class Player : MonoBehaviour
         _inputReader.MoveInputChanged -= OnMove;
         _inputReader.ClickedJump -= OnJump;
         _inputReader.ClicedAttack -= OnAttackAnimation;
-        _health.Damaged -= OnDamaged;
-        _animationEvents.Attacing -= OnAttack;
-    }
 
-    private void FixedUpdate()
-    {
-        if (_jumper.IsTouchedGround == false)
-        {
-            _playerAnimation.SetJumping(true);
-        }
-        else
-        {
-            _playerAnimation.SetSpeed(_speed);
-            _playerAnimation.SetJumping(false);
-        }
+        _health.DamageReceived -= OnDamaged;
+        _animationEvents.Attacing -= OnAttack;
+        _jumper.Jumped -= OnJumped;
+        _jumper.Landed -= OnLanded;
     }
 
     private void OnAttackAnimation()
     {
-        _playerAnimation.TriggerKick();
+        _animation.TriggerKick();
     }
 
     private void OnAttack()
     {
-        _playerAttack.TryAttack(_raycaster, FacingfDeretion);
+        _attack.TryAttack(_raycaster);
     }
 
     private void OnMove(Vector2 input)
     {
-        _speed = _mover.MovePlayer(input);
+        _animation.SetSpeed(_mover.Move(input));
     }
 
     private void OnJump()
     {
         _jumper.Jump();
+    }
+
+    private void OnJumped()
+    {
+        _animation.SetJumping(true);
+    }
+
+    private void OnLanded()
+    {
+        _animation.SetJumping(false);
     }
 
     private void OnVampirism()
@@ -102,6 +100,6 @@ public class Player : MonoBehaviour
 
     private void OnDamaged()
     {
-        _playerAnimation.TriggerHit();
+        _animation.TriggerHit();
     }
 }

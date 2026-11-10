@@ -7,6 +7,6 @@ public class ViewHeathText : ViewBar
     
    protected override void DrawHealth( )
     {
-        _textMeshPro.text = $"Çהמנמגüÿ\n{Health.CurrentHealth}/{Health.MaxHealth}";
+        _textMeshPro.text = $"Çהמנמגüÿ\n{Health.CurrentValue}/{Health.MaxValue}";
     }
 }

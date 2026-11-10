@@ -20,9 +20,9 @@ public class Enemy : MonoBehaviour
     private TargetDetector _targetDetector;
     private PatrolRoute _patrolRoute;
     private Mover _mover;
-    private EnemyChase _enemyChase;
-    private EnemyDeath _enemyDeath;
-    private EnemyAttack _enemyAttack;
+    private EnemyChase _chase;
+    private EnemyDeath _death;
+    private EnemyAttack _attack;
     private Health _health;
     private Transform _targetPlayer;
 
@@ -33,28 +33,28 @@ public class Enemy : MonoBehaviour
         _targetDetector = GetComponent<TargetDetector>();
         _patrolRoute = GetComponent<PatrolRoute>();
         _mover = GetComponent<Mover>();
-        _enemyChase = GetComponent<EnemyChase>();
-        _enemyDeath = GetComponent<EnemyDeath>();
-        _enemyAttack = GetComponent<EnemyAttack>();
+        _chase = GetComponent<EnemyChase>();
+        _death = GetComponent<EnemyDeath>();
+        _attack = GetComponent<EnemyAttack>();
         _health = GetComponent<Health>();
     }
 
     private void OnEnable()
     {
-        _health.Damaged += OnDamaged;
+        _health.DamageReceived += OnDamaged;
         _animationEvents.Attacing += OnAttack;
     }
 
     private void FixedUpdate()
     {
-        bool canAttack = _isAttacking == false && _enemyAttack.CanAttack();
+        bool canAttack = _isAttacking == false && _attack.CanAttack();
 
         SearchTarget();
 
         if (ReadyForAnAttack() && canAttack)
             OnAttackAinmation();
 
-        if (_enemyChase.UpdateChase(_detectionRange, _targetPlayer))
+        if (_chase.UpdateChase(_detectionRange, _targetPlayer))
             ChasePalyer();
         else
             Patrol();
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDisable()
     {
-        _health.Damaged -= OnDamaged;
+        _health.DamageReceived -= OnDamaged;
         _animationEvents.Attacing -= OnAttack;
     }
 
@@ -74,9 +74,7 @@ public class Enemy : MonoBehaviour
 
     private void Patrol()
     {
-        Vector2 target = _patrolRoute.CurrentTarget;
-
-        _mover.MoveEnemy(target);
+        _mover.Move(ChangeDirection(_patrolRoute.CurrentTarget));
 
         if (IsTargetReached())
             _patrolRoute.MoveToNext();
@@ -94,9 +92,7 @@ public class Enemy : MonoBehaviour
 
     private void ChasePalyer()
     {
-        Vector2 target = _targetPlayer.position;
-
-        _mover.MoveEnemy(target);
+        _mover.Move(ChangeDirection(_targetPlayer.position));
     }
 
     private bool ReadyForAnAttack()
@@ -124,21 +120,26 @@ public class Enemy : MonoBehaviour
         if (_targetPlayer == null)
             return;
 
-        _enemyAttack.HitPlayer(_targetPlayer);
+        _attack.HitPlayer(_targetPlayer);
 
         _isAttacking = false;
     }
 
     private void SearchTarget()
     {
-        Player playerTarget = _targetDetector.FillingAnOpponent<Player>( _detectionRange);
+        Player playerTarget = _targetDetector.FillingAnOpponent<Player>(_detectionRange);
 
-        if (playerTarget != null )
+        if (playerTarget != null)
             _targetPlayer = playerTarget.transform;
     }
 
     private void OnDamaged()
     {
         _animation.TriggerHit();
+    }
+
+    private Vector2 ChangeDirection(Vector2 target)
+    {
+        return (target - (Vector2)transform.position).normalized;
     }
 }

@@ -21587,9 +21587,9 @@ GameObject:
   - component: {fileID: 1325576702}
   - component: {fileID: 1325576704}
   - component: {fileID: 1325576705}
-  - component: {fileID: 1325576707}
   - component: {fileID: 1325576706}
   - component: {fileID: 1325576708}
+  - component: {fileID: 1325576709}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -21609,7 +21609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61227456f7fa6b44b3b33e8a059371d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  _playerAnimation: {fileID: 1976091951}
+  _animation: {fileID: 1976091951}
   _animationEvents: {fileID: 1976091955}
 --- !u!114 &1325576686
 MonoBehaviour:
@@ -21774,7 +21774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a38eb66e1ed544d97b9a22e7c6c0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _maxHealth: 100
+  _maxValue: 100
 --- !u!114 &1325576700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21841,42 +21841,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Vampirism
   _abilityDuration: 6
   _cooldownDuration: 4
---- !u!58 &1325576707
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325576684}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
 --- !u!114 &1325576708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21892,6 +21856,19 @@ MonoBehaviour:
   _damage: 5
   _attackCooldown: 0.5
   _rangeOfAction: 1
+--- !u!114 &1325576709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325576684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011dc5d241ca45949a439797f676ff67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
+  _veiwTransform: {fileID: 1976091954}
 --- !u!1 &1355866511
 GameObject:
   m_ObjectHideFlags: 0

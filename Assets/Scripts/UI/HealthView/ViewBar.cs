@@ -6,7 +6,7 @@ public abstract class ViewBar : MonoBehaviour
 
     private void OnEnable()
     {
-        Health.HealthHasChanged += DrawHealth;
+        Health.HasChanged += DrawHealth;
     }
 
     private void Start()
@@ -16,7 +16,7 @@ public abstract class ViewBar : MonoBehaviour
 
     private void OnDisable()
     {
-        Health.HealthHasChanged -= DrawHealth;
+        Health.HasChanged -= DrawHealth;
     }
 
     protected abstract void DrawHealth();

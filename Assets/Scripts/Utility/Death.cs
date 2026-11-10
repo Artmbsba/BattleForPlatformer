@@ -12,12 +12,12 @@ abstract public class Death : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.Died += OnDied;
+        _health.ÑharacterDied += OnDied;
     }
 
     private void OnDisable()
     {
-        _health.Died -= OnDied;
+        _health.ÑharacterDied -= OnDied;
     }
 
     abstract protected void OnDied();
