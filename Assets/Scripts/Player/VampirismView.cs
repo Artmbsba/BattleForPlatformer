@@ -3,30 +3,45 @@ using UnityEngine.UI;
 
 public class VampirismView : MonoBehaviour
 {
+    [SerializeField] private Vampirism _vampirism;
     [SerializeField] private Image _image;
-    [SerializeField] private Slider _Bar;
-    [SerializeField] float _speed = 1f;
+    [SerializeField] private Slider _bar;
+    [SerializeField] private float _speed = 1f;
 
     private float _minNumberBar = 0f;
     private float _maxNumberBar = 1f;
 
-    public void Tick(float elapsedTime, float duration)
+    private void OnEnable()
     {
-        float targetVolume = elapsedTime / duration;
-        _Bar.value = Mathf.MoveTowards(_Bar.value, targetVolume, _speed * Time.deltaTime);
+        _vampirism.AbilityStarted += OnAbilityStarted;
+        _vampirism.Ticked += OnTicked;
+        _vampirism.CooldownStarted += OnCooldownStarted;
     }
 
-    public void StartAbility(float radius)
+    private void OnDisable()
     {
-        _Bar.value = _minNumberBar;
+        _vampirism.AbilityStarted -= OnAbilityStarted;
+        _vampirism.Ticked -= OnTicked;
+        _vampirism.CooldownStarted -= OnCooldownStarted;
+    }
+
+    public void OnTicked(float elapsedTime, float duration)
+    {
+        float targetVolume = elapsedTime / duration;
+        _bar.value = Mathf.MoveTowards(_bar.value, targetVolume, _speed * Time.deltaTime);
+    }
+
+    public void OnAbilityStarted(float radius)
+    {
+        _bar.value = _minNumberBar;
 
         _image.enabled = true;
         SetRadius(radius);
     }
 
-    public void StartCooldown()
+    public void OnCooldownStarted()
     {
-        _Bar.value = _maxNumberBar;
+        _bar.value = _maxNumberBar;
 
         _image.enabled = false;
     }

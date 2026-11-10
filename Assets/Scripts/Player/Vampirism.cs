@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(VampirismDamager))]
 public class Vampirism : MonoBehaviour
 {
-    [SerializeField] private VampirismView _vampirismView;
     [SerializeField] private float _abilityDuration = 6f;
     [SerializeField] private float _cooldownDuration = 4f;
 
@@ -12,6 +12,10 @@ public class Vampirism : MonoBehaviour
     private Health _health;
 
     private bool _isActive = false;
+
+    public event Action<float> AbilityStarted;
+    public event Action<float, float> Ticked;
+    public event Action CooldownStarted;
 
     private void Awake()
     {
@@ -39,7 +43,7 @@ public class Vampirism : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        _vampirismView.StartAbility(_vampirismDamager.RangeOfAction);
+        AbilityStarted?.Invoke(_vampirismDamager.RangeOfAction);
 
         while (elapsedTime < _abilityDuration)
         {
@@ -48,21 +52,21 @@ public class Vampirism : MonoBehaviour
             if (healAmount > 0f)
                 HealPlayer(healAmount);
 
-            _vampirismView.Tick(elapsedTime, _abilityDuration);
+            Ticked?.Invoke(elapsedTime, _abilityDuration);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        _vampirismView.StartCooldown();
+        CooldownStarted?.Invoke();
 
         float elapsedCooldown = 0f;
 
         while (elapsedCooldown < _cooldownDuration)
         {
             float remainingTime = _cooldownDuration - elapsedCooldown;
-            _vampirismView.Tick(remainingTime, _cooldownDuration);
+            Ticked?.Invoke(remainingTime, _cooldownDuration);
 
             elapsedCooldown += Time.deltaTime;
 

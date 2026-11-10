@@ -20699,8 +20699,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879a0d6f0711a1d4f80e451f50427a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VampirismView
+  _vampirism: {fileID: 1325576706}
   _image: {fileID: 741518684}
-  _Bar: {fileID: 1934800004}
+  _bar: {fileID: 1934800004}
   _speed: 1
 --- !u!212 &1133722023
 SpriteRenderer:
@@ -21838,7 +21839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b45e35fabb715f4a80d091f22c7fdd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Vampirism
-  _vampirismView: {fileID: 1133722022}
   _abilityDuration: 6
   _cooldownDuration: 4
 --- !u!58 &1325576707
